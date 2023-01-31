@@ -1,0 +1,25 @@
+name: payment-service
+spring:
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:${DATASOURCE_URL:postgresql://localhost:5432/axon}
+    username: ${DB_USER:admin}
+    password: ${DB_SECRET:password}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: ${SHOW_SQL:false}
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate.format_sql: ${FORMAT_SQL:true}
+axon:
+  distributed:
+    enabled: true
+  serializer:
+    general: jackson
+    events: jackson
+    messages: jackson
+
+server:
+  port : 8085

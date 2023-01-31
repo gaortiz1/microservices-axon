@@ -1,0 +1,28 @@
+version: "3"
+services:
+
+  axon-server:
+    image: axoniq/axonserver:latest-jdk-17-dev-nonroot
+    container_name: axon-server
+    healthcheck:
+      test: curl -f http://localhost:8024/actuator/health || exit 1;
+    ports:
+      - 8124:8124
+      - 8024:8024
+    networks:
+      - axon-demo
+
+  postgresql:
+    image: "postgres:latest"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+    restart: unless-stopped
+    volumes:
+      - ./postgresql/data/postgres/data:/var/lib/postgresql/data/
+
+networks:
+  axon-demo:
+    driver: bridge
